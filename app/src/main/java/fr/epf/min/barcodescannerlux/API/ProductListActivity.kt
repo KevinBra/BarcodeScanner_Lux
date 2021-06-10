@@ -1,20 +1,32 @@
 package fr.epf.min.barcodescannerlux.API
 
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import fr.epf.min.barcodescannerlux.GetProductInterface
-import fr.epf.min.barcodescannerlux.utils.Constants.Companion.BASE_URL
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-object RetrofitInstance {
+object ProductApi {
+    private const val BASE_URL: String = "https://world.openfoodfacts.org/"
 
-    private val retrofit by lazy {
+    private val gson : Gson by lazy {
+        GsonBuilder().setLenient().create()
+    }
+
+    private val httpClient : OkHttpClient by lazy {
+        OkHttpClient.Builder().build()
+    }
+
+    private val retrofit : Retrofit by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
+            .client(httpClient)
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
     }
 
-    val api: GetProductInterface by lazy {
+    val api: GetProductInterface by lazy{
         retrofit.create(GetProductInterface::class.java)
     }
 }

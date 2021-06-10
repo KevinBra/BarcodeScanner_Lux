@@ -1,6 +1,5 @@
 package fr.epf.min.barcodescannerlux
 
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
@@ -12,39 +11,32 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.budiyev.android.codescanner.*
-import fr.epf.min.barcodescannerlux.repository.Repository
+import fr.epf.min.barcodescannerlux.API.ProductApi
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import okhttp3.*
-import java.io.IOException
 
 private const val CAMERA_REQUEST_CODE = 101
 class MainActivity : AppCompatActivity() {
     var barcode = ""
     private lateinit var codeScanner: CodeScanner
-    private lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
-        button_scan.setOnClickListener {
-            val repository = Repository()
-            val viewModelFactory = MainViewModelFactory(repository)
-            viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
-            viewModel.getPost()
-            viewModel.myResponse.observe(this, Observer { response ->
-                Log.d("Response", response._id.toString())
-                Log.d("Response", response.image_url.toString())
-                Log.d("Response", response.ingredients_text.toString())
-                Log.d("Response", response.allergens_tags.toString())
-                Log.d("Response", response.generic_name.toString())
-                Log.d("Response", response.nutriscore_grade.toString())
-                Log.d("Response", response.ecoscore_grade.toString())
-            })
-        }
         setupPermissions()
         codeScanner()
+
+        button_scan.setOnClickListener {
+            runBlocking {
+                val product = ProductApi.api.getProductByCode("737628064502")
+                Log.d("Response", product.toString())
+                textView_result.text = product.toString()
+            }
+        }
     }
 
     private fun codeScanner() {
@@ -117,5 +109,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-    }
+
+}
 
