@@ -1,30 +1,48 @@
 package fr.epf.min.barcodescannerlux
 
+import android.content.Intent
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.budiyev.android.codescanner.AutoFocusMode
-import com.budiyev.android.codescanner.CodeScanner
-import com.budiyev.android.codescanner.CodeScannerView
-import com.budiyev.android.codescanner.DecodeCallback
-import com.budiyev.android.codescanner.ErrorCallback
-import com.budiyev.android.codescanner.ScanMode
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.budiyev.android.codescanner.*
+import fr.epf.min.barcodescannerlux.repository.Repository
+import kotlinx.android.synthetic.main.activity_main.*
+import okhttp3.*
+import java.io.IOException
 
 private const val CAMERA_REQUEST_CODE = 101
 class MainActivity : AppCompatActivity() {
-
+    var barcode = ""
     private lateinit var codeScanner: CodeScanner
+    private lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
+        button_scan.setOnClickListener {
+            val repository = Repository()
+            val viewModelFactory = MainViewModelFactory(repository)
+            viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
+            viewModel.getPost()
+            viewModel.myResponse.observe(this, Observer { response ->
+                Log.d("Response", response._id.toString())
+                Log.d("Response", response.image_url.toString())
+                Log.d("Response", response.ingredients_text.toString())
+                Log.d("Response", response.allergens_tags.toString())
+                Log.d("Response", response.generic_name.toString())
+                Log.d("Response", response.nutriscore_grade.toString())
+                Log.d("Response", response.ecoscore_grade.toString())
+            })
+        }
         setupPermissions()
         codeScanner()
     }
@@ -45,8 +63,9 @@ class MainActivity : AppCompatActivity() {
             decodeCallback = DecodeCallback {
                 runOnUiThread {
                     scanner_text.text = it.text
+                    barcode = it.toString()
                 }
-                }
+            }
 
             errorCallback = ErrorCallback {
                 runOnUiThread {
@@ -98,4 +117,5 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-}
+    }
+
