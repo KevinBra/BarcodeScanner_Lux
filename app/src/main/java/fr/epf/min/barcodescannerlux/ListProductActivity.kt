@@ -43,7 +43,7 @@ class ListProductActivity : AppCompatActivity() {
             adapter = ProductAdapter(products)
             list_products_recyclerview.adapter = adapter
         }
+        this.title = "Product list"
     }
-
 
 }

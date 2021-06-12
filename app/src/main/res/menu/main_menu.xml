@@ -6,5 +6,7 @@
         android:id="@+id/favorite_product_list"
         android:icon="@drawable/list_icon"
         android:title="Favoris"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="ifRoom"
+        />
+
 </menu>
