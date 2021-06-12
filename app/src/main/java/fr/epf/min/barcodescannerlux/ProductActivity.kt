@@ -19,7 +19,7 @@ import kotlinx.coroutines.runBlocking
 
 class ProductActivity : AppCompatActivity() {
     private lateinit var scannedProduct: Product
-    private var myMenu: Menu? = null
+    private val menu: Menu? = null
     lateinit var products: List<Product>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,6 +79,15 @@ class ProductActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.product_menu, menu)
+        val database = Room.databaseBuilder(
+            this, ProductDatabase::class.java, "product-db"
+        ).build()
+        val productDao = database.getProductDao()
+        if (runBlocking { productDao.isRowIsExist(scannedProduct._id) }) {
+            menu?.findItem(R.id.add_favorite_product)?.setIcon(R.drawable.fav_full)
+        } else {
+            menu?.findItem(R.id.add_favorite_product)?.setIcon(R.drawable.fav_border)
+        }
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -87,7 +96,6 @@ class ProductActivity : AppCompatActivity() {
             this, ProductDatabase::class.java, "product-db"
         ).build()
         val productDao = database.getProductDao()
-
         when (item.itemId) {
             R.id.add_favorite_product -> {
                 if (runBlocking { productDao.isRowIsExist(scannedProduct._id) }) {
