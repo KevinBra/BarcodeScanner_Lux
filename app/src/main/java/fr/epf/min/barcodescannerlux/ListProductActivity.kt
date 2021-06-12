@@ -1,17 +1,12 @@
 package fr.epf.min.barcodescannerlux
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
-import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
-import fr.epf.min.barcodescannerlux.API.ProductApi
-import fr.epf.min.barcodescannerlux.data.ProductDao
 import fr.epf.min.barcodescannerlux.data.ProductDatabase
 import fr.epf.min.barcodescannerlux.models.Product
-import fr.epf.min.barcodescannerlux.utils.data
 import kotlinx.android.synthetic.main.list_product_layout.*
 import kotlinx.coroutines.runBlocking
 import kotlin.collections.toMutableList

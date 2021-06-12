@@ -1,7 +1,6 @@
 package fr.epf.min.barcodescannerlux
 
 import fr.epf.min.barcodescannerlux.models.Product
-import retrofit2.Response
 import retrofit2.http.*
 
 interface GetProductInterface {
