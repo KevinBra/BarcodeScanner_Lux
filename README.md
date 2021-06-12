@@ -19,3 +19,6 @@ Cliquer sur l'icône en haut à droite de la page pour accéder à la page des f
 Cette page répertorie l'ensemble des produits que vous avez sélectionné comme favoris.
 Pour visualiser les détails d'un produit, cliquer sur le produit en question.
 Pour retourner à la page d'accueil cliquer sur la flèche en haut à gauche de la page.
+
+Auteur : Kévin BRAKCHI
+Groupe : MIN2
