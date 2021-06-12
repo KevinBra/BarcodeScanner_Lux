@@ -1,7 +1,10 @@
 package fr.epf.min.barcodescannerlux.models
-//val allergens_tags: String = "",
 
-data class Product(val _id: String ="",
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "products")
+data class Product(@PrimaryKey val _id: String ="",
                    val image_url: String = "",
                    val ingredients_text: String = "",
                    val generic_name: String = "",

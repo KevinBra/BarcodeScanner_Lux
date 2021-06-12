@@ -23,15 +23,17 @@
         android:layout_height="wrap_content"
         android:text="Scannez un produit"
         android:gravity="center"
+        android:layout_marginTop="10dp"
         android:textColor="@android:color/black" />
 
     <Button
         android:id="@+id/button_scan"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Afficher produit"
-        android:layout_marginTop="50dp"
-        />
+        android:layout_height="100dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="10dp"
+        android:text="Afficher produit" />
 
 
 </LinearLayout>
